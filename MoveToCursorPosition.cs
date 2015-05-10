@@ -12,7 +12,8 @@ namespace MoveToCursor {
         public const string Extension = "MoveToCursor";
 
         #endregion
- 
+
+        #region FIELDS
         /// Keep position of the mouse cursor positon in 3d space.
         /// Helper field.
         private Vector3 _cursorPos;
@@ -20,10 +21,9 @@ namespace MoveToCursor {
         /// Info about collided object
         private RaycastHit hit;
 
-        private void Start() {
+        #endregion
 
-        }
-
+        #region METHODS
         private void Update() {
             FindCursor3dPosition();
             transform.position = _cursorPos;
@@ -58,6 +58,8 @@ namespace MoveToCursor {
                             hit.point.z);
             }
         }
+
+        #endregion
 
     }
 
