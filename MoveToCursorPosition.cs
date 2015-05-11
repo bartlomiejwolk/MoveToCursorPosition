@@ -21,6 +21,17 @@ namespace MoveToCursor {
         /// Info about collided object
         private RaycastHit hit;
 
+        [SerializeField]
+        private LayerMask layerMask;
+
+        #endregion
+
+        #region PROPERTIES
+        public LayerMask LayerMask {
+            get { return layerMask; }
+            set { layerMask = value; }
+        }
+
         #endregion
 
         #region METHODS
@@ -30,12 +41,13 @@ namespace MoveToCursor {
         }
 
         /// Find cursor position in 3d space
+        // todo extract
         private void FindCursor3dPosition() {
-            Ray rayToCursor;
             // Create Ray from camera to the mouse cursor position
-            rayToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var rayToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
             // Set laser pointer's position
-            if (Physics.Raycast(rayToCursor, out hit)) {
+            // todo add max distance
+            if (Physics.Raycast(rayToCursor, out hit, Mathf.Infinity, LayerMask)) {
                 // Allow shooting all-over the enemy
                 if (hit.collider.tag == "Enemy") {
                     _cursorPos = new Vector3(

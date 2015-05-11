@@ -13,6 +13,8 @@ namespace MoveToCursor {
 
         #region SERIALIZED PROPERTIES
 
+        private SerializedProperty layerMask;
+
         #endregion SERIALIZED PROPERTIES
 
         #region UNITY MESSAGES
@@ -21,13 +23,23 @@ namespace MoveToCursor {
             serializedObject.Update();
 
             DrawVersionLabel();
+            DrawLayerMaskDropdown();
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawLayerMaskDropdown() {
+            EditorGUILayout.PropertyField(
+                layerMask,
+                new GUIContent(
+                    "Layer mask",
+                    ""));
         }
 
         private void OnEnable() {
             Script = (MoveToCursorPosition)target;
 
+            layerMask = serializedObject.FindProperty("layerMask");
         }
 
         #endregion UNITY MESSAGES
