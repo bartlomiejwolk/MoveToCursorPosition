@@ -32,12 +32,6 @@ namespace MoveToCursor {
         [SerializeField]
         private string excludedTag;
 
-        /// <summary>
-        /// If true, invert layer mask values.
-        /// </summary>
-        [SerializeField]
-        private bool invertLayerMask;
-
         #endregion
 
         #region PROPERTIES
@@ -51,31 +45,13 @@ namespace MoveToCursor {
             set { excludedTag = value; }
         }
 
-        public bool InvertLayerMask {
-            get { return invertLayerMask; }
-            set {
-                invertLayerMask = value;
-                LayerMask = ~LayerMask;
-            }
-        }
-
         #endregion
 
         #region METHODS
 
-        private void Start() {
-            HandleInvertLayerMask();
-        }
-
         private void Update() {
             FindCursor3dPosition();
             transform.position = _cursorPos;
-        }
-
-        private void HandleInvertLayerMask() {
-            if (!InvertLayerMask) return;
-
-            LayerMask = ~LayerMask;
         }
 
         /// Find cursor position in 3d space
@@ -111,11 +87,28 @@ namespace MoveToCursor {
             }
         }
 
-        public void SetLayerMask(string layerName) {
+        public void AddLayer(string layerName) {
+            Logger.LogCall();
+
+            var layerIndex = LayerMask.NameToLayer(layerName);
+            LayerMask |= 1 << layerIndex;
+        }
+
+        /// <summary>
+        /// Sets layer mask value to specified layer. All other layers are
+        /// unset.
+        /// </summary>
+        /// <param name="layerName"></param>
+        public void SetLayer(string layerName) {
             Logger.LogCall();
 
             var layerIndex = LayerMask.NameToLayer(layerName);
             LayerMask = 1 << layerIndex;
+        }
+
+        public void UnsetLayer(string layerName) {
+            var layerIndex = LayerMask.NameToLayer(layerName);
+            LayerMask ^= 1 << layerIndex;
         }
 
         #endregion

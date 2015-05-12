@@ -15,7 +15,6 @@ namespace MoveToCursor {
 
         private SerializedProperty layerMask;
         private SerializedProperty excludedTag;
-        private SerializedProperty invertLayerMask;
 
         #endregion SERIALIZED PROPERTIES
 
@@ -27,17 +26,8 @@ namespace MoveToCursor {
             DrawVersionLabel();
             DrawLayerMaskDropdown();
             DrawExcludedTagDropdown();
-            DrawInvertLayerMaskToggle();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DrawInvertLayerMaskToggle() {
-            EditorGUILayout.PropertyField(
-                invertLayerMask,
-                new GUIContent(
-                    "Invert",
-                    "Invert layer mask."));
         }
 
         private void DrawLayerMaskDropdown() {
@@ -46,14 +36,6 @@ namespace MoveToCursor {
                 new GUIContent(
                     "Layer mask",
                     "Untagged"));
-        }
-
-        private void OnEnable() {
-            Script = (MoveToCursorPosition)target;
-
-            layerMask = serializedObject.FindProperty("layerMask");
-            excludedTag = serializedObject.FindProperty("excludedTag");
-            invertLayerMask = serializedObject.FindProperty("invertLayerMask");
         }
 
         private void DrawExcludedTagDropdown() {
