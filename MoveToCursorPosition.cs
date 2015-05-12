@@ -20,9 +20,14 @@ namespace MoveToCursor {
 
         /// Info about collided object
         private RaycastHit hit;
+        #endregion
 
+        #region INSPECTOR FIELDS
         [SerializeField]
         private LayerMask layerMask;
+
+        [SerializeField]
+        private string excludedTag;
 
         #endregion
 
@@ -30,6 +35,11 @@ namespace MoveToCursor {
         public LayerMask LayerMask {
             get { return layerMask; }
             set { layerMask = value; }
+        }
+
+        public string ExcludedTag {
+            get { return excludedTag; }
+            set { excludedTag = value; }
         }
 
         #endregion

@@ -14,6 +14,7 @@ namespace MoveToCursor {
         #region SERIALIZED PROPERTIES
 
         private SerializedProperty layerMask;
+        private SerializedProperty excludedTag;
 
         #endregion SERIALIZED PROPERTIES
 
@@ -24,6 +25,7 @@ namespace MoveToCursor {
 
             DrawVersionLabel();
             DrawLayerMaskDropdown();
+            DrawExcludedTagDropdown();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -33,13 +35,22 @@ namespace MoveToCursor {
                 layerMask,
                 new GUIContent(
                     "Layer mask",
-                    ""));
+                    "Untagged"));
         }
 
         private void OnEnable() {
             Script = (MoveToCursorPosition)target;
 
             layerMask = serializedObject.FindProperty("layerMask");
+            excludedTag = serializedObject.FindProperty("excludedTag");
+        }
+
+        private void DrawExcludedTagDropdown() {
+            excludedTag.stringValue = EditorGUILayout.TagField(
+                new GUIContent(
+                    "Exclude Tag",
+                    ""),
+                excludedTag.stringValue);
         }
 
         #endregion UNITY MESSAGES
