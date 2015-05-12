@@ -20,6 +20,11 @@ namespace MoveToCursor {
 
         #region UNITY MESSAGES
 
+        private void OnEnable() {
+            layerMask = serializedObject.FindProperty("layerMask");
+            excludedTag = serializedObject.FindProperty("excludedTag");
+        }
+
         public override void OnInspectorGUI() {
             serializedObject.Update();
 

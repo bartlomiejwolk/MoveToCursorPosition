@@ -26,6 +26,7 @@ namespace MoveToCursor {
         #endregion
 
         #region INSPECTOR FIELDS
+
         [SerializeField]
         private LayerMask layerMask;
 
