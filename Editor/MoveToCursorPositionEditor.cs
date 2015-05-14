@@ -13,21 +13,42 @@ namespace MoveToCursor {
 
         #region SERIALIZED PROPERTIES
 
+        private SerializedProperty layerMask;
+        private SerializedProperty excludedTag;
+
         #endregion SERIALIZED PROPERTIES
 
         #region UNITY MESSAGES
+
+        private void OnEnable() {
+            layerMask = serializedObject.FindProperty("layerMask");
+            excludedTag = serializedObject.FindProperty("excludedTag");
+        }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
             DrawVersionLabel();
+            DrawLayerMaskDropdown();
+            DrawExcludedTagDropdown();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void OnEnable() {
-            Script = (MoveToCursorPosition)target;
+        private void DrawLayerMaskDropdown() {
+            EditorGUILayout.PropertyField(
+                layerMask,
+                new GUIContent(
+                    "Layer mask",
+                    "Layers to be included when raycasting from the camera."));
+        }
 
+        private void DrawExcludedTagDropdown() {
+            excludedTag.stringValue = EditorGUILayout.TagField(
+                new GUIContent(
+                    "Exclude Tag",
+                    "GOs with this tag will be excluded."),
+                excludedTag.stringValue);
         }
 
         #endregion UNITY MESSAGES
@@ -46,7 +67,7 @@ namespace MoveToCursor {
 
         #region METHODS
 
-        [MenuItem("Component/MyNamespace/MoveToCursorPosition")]
+        [MenuItem("Component/MoveToCursorPosition")]
         private static void AddMoveToCursorPositionComponent() {
             if (Selection.activeGameObject != null) {
                 Selection.activeGameObject.AddComponent(typeof(MoveToCursorPosition));
