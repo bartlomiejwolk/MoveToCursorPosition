@@ -40,14 +40,14 @@ namespace MoveToCursor {
                 layerMask,
                 new GUIContent(
                     "Layer mask",
-                    "Untagged"));
+                    "Layers to be included when raycasting from the camera."));
         }
 
         private void DrawExcludedTagDropdown() {
             excludedTag.stringValue = EditorGUILayout.TagField(
                 new GUIContent(
                     "Exclude Tag",
-                    ""),
+                    "GOs with this tag will be excluded."),
                 excludedTag.stringValue);
         }
 
