@@ -67,7 +67,7 @@ namespace MoveToCursor {
 
         #region METHODS
 
-        [MenuItem("Component/MoveToCursorPosition")]
+        [MenuItem("Component/MoveToCursor")]
         private static void AddMoveToCursorPositionComponent() {
             if (Selection.activeGameObject != null) {
                 Selection.activeGameObject.AddComponent(typeof(MoveToCursorPosition));
