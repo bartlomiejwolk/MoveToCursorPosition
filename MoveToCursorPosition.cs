@@ -58,6 +58,12 @@ namespace MoveToCursor {
         /// Find cursor position in 3d space
         // todo extract
         private void FindCursor3dPosition() {
+            if (Camera.main == null) {
+                Debug.LogWarning("There's no camera tagged MainCamera in " +
+                                 "the scene.");
+                return;
+            }
+
             // Create Ray from camera to the mouse cursor position
             var rayToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
             // Set laser pointer's position
