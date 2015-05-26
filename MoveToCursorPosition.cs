@@ -48,12 +48,16 @@ namespace MoveToCursor {
 
         #endregion
 
-        #region METHODS
+        #region UNITY MESSAGES
 
         private void Update() {
             FindCursor3dPosition();
             transform.position = _cursorPos;
         }
+
+        #endregion
+
+        #region METHODS
 
         /// Find cursor position in 3d space
         // todo extract
