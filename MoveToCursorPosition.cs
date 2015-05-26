@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using FileLogger;
 
-namespace MoveToCursor {
+namespace MoveToCursorPositionEx {
 
     /// Move GO to cursor position in 3d space.
     public class MoveToCursorPosition : MonoBehaviour {

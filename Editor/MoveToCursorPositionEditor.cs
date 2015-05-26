@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace MoveToCursor {
+namespace MoveToCursorPositionEx {
 
     [CustomEditor(typeof(MoveToCursorPosition))]
     public sealed class MoveToCursorPositionEditor : Editor {
@@ -67,7 +67,7 @@ namespace MoveToCursor {
 
         #region METHODS
 
-        [MenuItem("Component/MoveToCursor")]
+        [MenuItem("Component/MoveToCursorPosition")]
         private static void AddMoveToCursorPositionComponent() {
             if (Selection.activeGameObject != null) {
                 Selection.activeGameObject.AddComponent(typeof(MoveToCursorPosition));
