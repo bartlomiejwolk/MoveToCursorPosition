@@ -16,6 +16,7 @@ namespace MoveToCursorPositionEx {
         private SerializedProperty layerMask;
         // todo not implemented
         private SerializedProperty excludedTag;
+        private SerializedProperty maxHeight;
 
         #endregion SERIALIZED PROPERTIES
 
@@ -24,16 +25,29 @@ namespace MoveToCursorPositionEx {
         private void OnEnable() {
             layerMask = serializedObject.FindProperty("layerMask");
             excludedTag = serializedObject.FindProperty("excludedTag");
+            maxHeight = serializedObject.FindProperty("maxHeight");
         }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
             DrawVersionLabel();
+
+            EditorGUILayout.Space();
+            
             DrawLayerMaskDropdown();
             DrawExcludedTagDropdown();
+            DrawMaxHeightField();
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawMaxHeightField() {
+            EditorGUILayout.PropertyField(
+                maxHeight,
+                new GUIContent(
+                    "Max Height",
+                    "Max height that this transform can achieve."));
         }
 
         private void DrawLayerMaskDropdown() {

@@ -29,6 +29,12 @@ namespace MoveToCursorPositionEx {
         [SerializeField]
         private string excludedTag;
 
+        /// <summary>
+        /// Max height for the transform on y axis.
+        /// </summary>
+        [SerializeField]
+        private float maxHeight;
+
         #endregion
 
         #region PROPERTIES
@@ -40,6 +46,11 @@ namespace MoveToCursorPositionEx {
         public string ExcludedTag {
             get { return excludedTag; }
             set { excludedTag = value; }
+        }
+
+        public float MaxHeight {
+            get { return maxHeight; }
+            set { maxHeight = value; }
         }
 
         #endregion
