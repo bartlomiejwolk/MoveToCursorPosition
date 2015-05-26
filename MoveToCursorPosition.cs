@@ -27,6 +27,8 @@ namespace MoveToCursorPositionEx {
         private string componentName = "MyClass";
 #pragma warning restore0414
 
+        private RaycastHit hitInfo;
+
         #endregion
 
         #region INSPECTOR FIELDS
@@ -42,7 +44,7 @@ namespace MoveToCursorPositionEx {
         private LayerMask layerMask;
 
         [SerializeField]
-        private string excludedTag;
+        private string excludedTag = "";
 
         /// <summary>
         /// Max height for the transform on y axis.
@@ -86,7 +88,6 @@ namespace MoveToCursorPositionEx {
         #region METHODS
 
         /// Find cursor position in 3d space
-        // todo extract
         private void UpdateCursor3dPosition() {
             if (Camera.main == null) {
                 Debug.LogWarning("There's no camera tagged MainCamera in " +
@@ -94,47 +95,35 @@ namespace MoveToCursorPositionEx {
                 return;
             }
 
+            // Throw ray and return if did not hit anything.
+            if (!ThrowRay()) return;
+            // Handle excluded tag.
+            if (hitInfo.transform.tag == ExcludedTag) return;
+            // Handle max height option.
+            if (hitInfo.point.y > MaxHeight) return;
+
+            // Calculate new cursor position.
+            var cursorPos = new Vector3(
+                hitInfo.point.x,
+                hitInfo.point.y,
+                hitInfo.point.z);
+
+            // Update transform position.
+            transform.position = cursorPos;
+        }
+
+        private bool ThrowRay() {
             // Create Ray from camera to the mouse cursor position
             var rayToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
             // Set laser pointer's position
             // todo add max distance
             // todo add options
-            var rayHitSth = Physics.Raycast(
+            return Physics.Raycast(
                 rayToCursor,
-                out hit,
+                out hitInfo,
                 Mathf.Infinity,
                 LayerMask);
-
-            var cursorPos = transform.position;
-
-            if (rayHitSth) {
-                // Allow shooting all-over the enemy
-                // todo use tag dropdown
-                if (hit.collider.tag == "Enemy") {
-                    cursorPos = new Vector3(
-                        hit.point.x,
-                        hit.point.y,
-                        hit.point.z);
-                }
-                // Don't modify cursor height when player doesn't aim high
-                else if (hit.point.y <= transform.position.y + 1)
-                    cursorPos = new Vector3(
-                        hit.point.x,
-                        hit.point.y,
-                        hit.point.z);
-                // Don't allow laser pointer to go above certain hight (like above walls)
-                else
-                    cursorPos =
-                        new Vector3(
-                            hit.point.x,
-                            transform.position.y + 1,
-                            hit.point.z);
-            }
-
-            // Update transform position.
-            transform.position = cursorPos;
         }
 
         // todo move it to a utility class
