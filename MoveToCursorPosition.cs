@@ -19,7 +19,7 @@ namespace MoveToCursorPositionEx {
         #region FIELDS
         /// Keep position of the mouse cursor positon in 3d space.
         /// Helper field.
-        private Vector3 _cursorPos;
+        private Vector3 cursorPos;
 
         /// Info about collided object
         private RaycastHit hit;
@@ -52,7 +52,7 @@ namespace MoveToCursorPositionEx {
 
         private void Update() {
             FindCursor3dPosition();
-            transform.position = _cursorPos;
+            transform.position = cursorPos;
         }
 
         #endregion
@@ -77,20 +77,20 @@ namespace MoveToCursorPositionEx {
                 // Allow shooting all-over the enemy
                 // todo use tag dropdown
                 if (hit.collider.tag == "Enemy") {
-                    _cursorPos = new Vector3(
+                    cursorPos = new Vector3(
                         hit.point.x,
                         hit.point.y,
                         hit.point.z);
                 }
                 // Don't modify cursor height when player doesn't aim high
                 else if (hit.point.y <= transform.position.y + 1)
-                    _cursorPos = new Vector3(
+                    cursorPos = new Vector3(
                         hit.point.x,
                         hit.point.y,
                         hit.point.z);
                 // Don't allow laser pointer to go above certain hight (like above walls)
                 else
-                    _cursorPos =
+                    cursorPos =
                         new Vector3(
                             hit.point.x,
                             transform.position.y + 1,
