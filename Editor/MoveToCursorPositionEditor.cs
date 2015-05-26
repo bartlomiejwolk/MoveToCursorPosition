@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MoveToCursorPositionEx {
 
-    [CustomEditor(typeof(MoveToCursorPosition))]
+    [CustomEditor(typeof (MoveToCursorPosition))]
     public sealed class MoveToCursorPositionEditor : Editor {
         #region FIELDS
 
@@ -14,20 +14,13 @@ namespace MoveToCursorPositionEx {
         #region SERIALIZED PROPERTIES
 
         private SerializedProperty description;
-        private SerializedProperty layerMask;
         private SerializedProperty excludedTag;
+        private SerializedProperty layerMask;
         private SerializedProperty maxHeight;
 
         #endregion SERIALIZED PROPERTIES
 
         #region UNITY MESSAGES
-
-        private void OnEnable() {
-            description = serializedObject.FindProperty("description");
-            layerMask = serializedObject.FindProperty("layerMask");
-            excludedTag = serializedObject.FindProperty("excludedTag");
-            maxHeight = serializedObject.FindProperty("maxHeight");
-        }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
@@ -36,15 +29,30 @@ namespace MoveToCursorPositionEx {
             DrawDescriptionTextArea();
 
             EditorGUILayout.Space();
-            
+
             DrawLayerMaskDropdown();
             DrawExcludedTagDropdown();
             DrawMaxHeightField();
 
             serializedObject.ApplyModifiedProperties();
         }
+
+        private void OnEnable() {
+            description = serializedObject.FindProperty("description");
+            layerMask = serializedObject.FindProperty("layerMask");
+            excludedTag = serializedObject.FindProperty("excludedTag");
+            maxHeight = serializedObject.FindProperty("maxHeight");
+        }
+
         #endregion UNITY MESSAGES
+
         #region INSPECTOR
+
+        private void DrawDescriptionTextArea() {
+            description.stringValue = EditorGUILayout.TextArea(
+                description.stringValue);
+        }
+
         private void DrawExcludedTagDropdown() {
             excludedTag.stringValue = EditorGUILayout.TagField(
                 new GUIContent(
@@ -69,7 +77,6 @@ namespace MoveToCursorPositionEx {
                     "Max height that this transform can achieve."));
         }
 
-
         private void DrawVersionLabel() {
             EditorGUILayout.LabelField(
                 string.Format(
@@ -78,11 +85,6 @@ namespace MoveToCursorPositionEx {
                     MoveToCursorPosition.Extension));
         }
 
-        private void DrawDescriptionTextArea() {
-            description.stringValue = EditorGUILayout.TextArea(
-                description.stringValue);
-        }
- 
         #endregion INSPECTOR
 
         #region METHODS
@@ -90,7 +92,8 @@ namespace MoveToCursorPositionEx {
         [MenuItem("Component/MoveToCursorPosition")]
         private static void AddMoveToCursorPositionComponent() {
             if (Selection.activeGameObject != null) {
-                Selection.activeGameObject.AddComponent(typeof(MoveToCursorPosition));
+                Selection.activeGameObject.AddComponent(
+                    typeof (MoveToCursorPosition));
             }
         }
 
