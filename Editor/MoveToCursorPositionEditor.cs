@@ -44,13 +44,14 @@ namespace MoveToCursorPositionEx {
 
             serializedObject.ApplyModifiedProperties();
         }
-
-        private void DrawMaxHeightField() {
-            EditorGUILayout.PropertyField(
-                maxHeight,
+        #endregion UNITY MESSAGES
+        #region INSPECTOR
+        private void DrawExcludedTagDropdown() {
+            excludedTag.stringValue = EditorGUILayout.TagField(
                 new GUIContent(
-                    "Max Height",
-                    "Max height that this transform can achieve."));
+                    "Exclude Tag",
+                    "GOs with this tag will be excluded."),
+                excludedTag.stringValue);
         }
 
         private void DrawLayerMaskDropdown() {
@@ -61,17 +62,14 @@ namespace MoveToCursorPositionEx {
                     "Layers to be included when raycasting from the camera."));
         }
 
-        private void DrawExcludedTagDropdown() {
-            excludedTag.stringValue = EditorGUILayout.TagField(
+        private void DrawMaxHeightField() {
+            EditorGUILayout.PropertyField(
+                maxHeight,
                 new GUIContent(
-                    "Exclude Tag",
-                    "GOs with this tag will be excluded."),
-                excludedTag.stringValue);
+                    "Max Height",
+                    "Max height that this transform can achieve."));
         }
 
-        #endregion UNITY MESSAGES
-
-        #region INSPECTOR
 
         private void DrawVersionLabel() {
             EditorGUILayout.LabelField(
