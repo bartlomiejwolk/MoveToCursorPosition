@@ -13,6 +13,7 @@ namespace MoveToCursorPositionEx {
 
         #region SERIALIZED PROPERTIES
 
+        private SerializedProperty description;
         private SerializedProperty layerMask;
         // todo not implemented
         private SerializedProperty excludedTag;
@@ -23,6 +24,7 @@ namespace MoveToCursorPositionEx {
         #region UNITY MESSAGES
 
         private void OnEnable() {
+            description = serializedObject.FindProperty("description");
             layerMask = serializedObject.FindProperty("layerMask");
             excludedTag = serializedObject.FindProperty("excludedTag");
             maxHeight = serializedObject.FindProperty("maxHeight");
@@ -32,6 +34,7 @@ namespace MoveToCursorPositionEx {
             serializedObject.Update();
 
             DrawVersionLabel();
+            DrawDescriptionTextArea();
 
             EditorGUILayout.Space();
             
@@ -78,6 +81,11 @@ namespace MoveToCursorPositionEx {
                     MoveToCursorPosition.Extension));
         }
 
+        private void DrawDescriptionTextArea() {
+            description.stringValue = EditorGUILayout.TextArea(
+                description.stringValue);
+        }
+ 
         #endregion INSPECTOR
 
         #region METHODS

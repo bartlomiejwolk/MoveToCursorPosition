@@ -17,8 +17,23 @@ namespace MoveToCursorPositionEx {
         #endregion
 
         #region FIELDS
-        /// Keep position of the mouse cursor positon in 3d space.
-        /// Helper field.
+
+        /// <summary>
+        /// Allows identify component in the scene file when reading it with
+        /// text editor.
+        /// </summary>
+#pragma warning disable 0414
+        [SerializeField]
+        private string componentName = "MyClass";
+#pragma warning restore0414
+
+        #endregion
+
+        #region INSPECTOR FIELDS
+
+        [SerializeField]
+        private string description = "Description";
+ 
         #endregion
 
         #region INSPECTOR FIELDS
@@ -51,6 +66,11 @@ namespace MoveToCursorPositionEx {
         public float MaxHeight {
             get { return maxHeight; }
             set { maxHeight = value; }
+        }
+
+        public string Description {
+            get { return description; }
+            set { description = value; }
         }
 
         #endregion
