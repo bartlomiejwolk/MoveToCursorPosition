@@ -1,9 +1,14 @@
-﻿using UnityEditor;
+﻿// Copyright (c) 2015 Bartlomiej Wolk (bartlomiejwolk@gmail.com)
+//  
+// This file is part of the MoveToCursorPosition extension for Unity.
+// Licensed under the MIT license. See LICENSE file in the project root folder.
+
+using UnityEditor;
 using UnityEngine;
 
-namespace MoveToCursor {
+namespace MoveToCursorPositionEx {
 
-    [CustomEditor(typeof(MoveToCursorPosition))]
+    [CustomEditor(typeof (MoveToCursorPosition))]
     public sealed class MoveToCursorPositionEditor : Editor {
         #region FIELDS
 
@@ -13,34 +18,44 @@ namespace MoveToCursor {
 
         #region SERIALIZED PROPERTIES
 
-        private SerializedProperty layerMask;
+        private SerializedProperty description;
         private SerializedProperty excludedTag;
+        private SerializedProperty layerMask;
+        private SerializedProperty maxHeight;
 
         #endregion SERIALIZED PROPERTIES
 
         #region UNITY MESSAGES
 
-        private void OnEnable() {
-            layerMask = serializedObject.FindProperty("layerMask");
-            excludedTag = serializedObject.FindProperty("excludedTag");
-        }
-
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
             DrawVersionLabel();
+            DrawDescriptionTextArea();
+
+            EditorGUILayout.Space();
+
             DrawLayerMaskDropdown();
             DrawExcludedTagDropdown();
+            DrawMaxHeightField();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawLayerMaskDropdown() {
-            EditorGUILayout.PropertyField(
-                layerMask,
-                new GUIContent(
-                    "Layer mask",
-                    "Layers to be included when raycasting from the camera."));
+        private void OnEnable() {
+            description = serializedObject.FindProperty("description");
+            layerMask = serializedObject.FindProperty("layerMask");
+            excludedTag = serializedObject.FindProperty("excludedTag");
+            maxHeight = serializedObject.FindProperty("maxHeight");
+        }
+
+        #endregion UNITY MESSAGES
+
+        #region INSPECTOR
+
+        private void DrawDescriptionTextArea() {
+            description.stringValue = EditorGUILayout.TextArea(
+                description.stringValue);
         }
 
         private void DrawExcludedTagDropdown() {
@@ -51,9 +66,21 @@ namespace MoveToCursor {
                 excludedTag.stringValue);
         }
 
-        #endregion UNITY MESSAGES
+        private void DrawLayerMaskDropdown() {
+            EditorGUILayout.PropertyField(
+                layerMask,
+                new GUIContent(
+                    "Layer mask",
+                    "Layers to be included when raycasting from the camera."));
+        }
 
-        #region INSPECTOR
+        private void DrawMaxHeightField() {
+            EditorGUILayout.PropertyField(
+                maxHeight,
+                new GUIContent(
+                    "Max Height",
+                    "Max height that this transform can achieve."));
+        }
 
         private void DrawVersionLabel() {
             EditorGUILayout.LabelField(
@@ -70,7 +97,8 @@ namespace MoveToCursor {
         [MenuItem("Component/MoveToCursorPosition")]
         private static void AddMoveToCursorPositionComponent() {
             if (Selection.activeGameObject != null) {
-                Selection.activeGameObject.AddComponent(typeof(MoveToCursorPosition));
+                Selection.activeGameObject.AddComponent(
+                    typeof (MoveToCursorPosition));
             }
         }
 
