@@ -118,7 +118,6 @@ namespace MoveToCursorPositionEx {
 
             // Set laser pointer's position
             // todo add max distance
-            // todo add options
             return Physics.Raycast(
                 rayToCursor,
                 out hitInfo,

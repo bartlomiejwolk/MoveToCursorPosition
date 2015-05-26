@@ -15,7 +15,6 @@ namespace MoveToCursorPositionEx {
 
         private SerializedProperty description;
         private SerializedProperty layerMask;
-        // todo not implemented
         private SerializedProperty excludedTag;
         private SerializedProperty maxHeight;
 
