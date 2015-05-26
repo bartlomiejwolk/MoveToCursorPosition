@@ -14,6 +14,7 @@ namespace MoveToCursorPositionEx {
         #region SERIALIZED PROPERTIES
 
         private SerializedProperty layerMask;
+        // todo not implemented
         private SerializedProperty excludedTag;
 
         #endregion SERIALIZED PROPERTIES

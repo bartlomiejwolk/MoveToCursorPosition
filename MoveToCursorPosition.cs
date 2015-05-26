@@ -19,10 +19,6 @@ namespace MoveToCursorPositionEx {
         #region FIELDS
         /// Keep position of the mouse cursor positon in 3d space.
         /// Helper field.
-        private Vector3 cursorPos;
-
-        /// Info about collided object
-        private RaycastHit hit;
         #endregion
 
         #region INSPECTOR FIELDS
@@ -51,8 +47,7 @@ namespace MoveToCursorPositionEx {
         #region UNITY MESSAGES
 
         private void Update() {
-            FindCursor3dPosition();
-            transform.position = cursorPos;
+            UpdateCursor3dPosition();
         }
 
         #endregion
@@ -61,7 +56,7 @@ namespace MoveToCursorPositionEx {
 
         /// Find cursor position in 3d space
         // todo extract
-        private void FindCursor3dPosition() {
+        private void UpdateCursor3dPosition() {
             if (Camera.main == null) {
                 Debug.LogWarning("There's no camera tagged MainCamera in " +
                                  "the scene.");
@@ -70,10 +65,20 @@ namespace MoveToCursorPositionEx {
 
             // Create Ray from camera to the mouse cursor position
             var rayToCursor = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
             // Set laser pointer's position
             // todo add max distance
             // todo add options
-            if (Physics.Raycast(rayToCursor, out hit, Mathf.Infinity, LayerMask)) {
+            var rayHitSth = Physics.Raycast(
+                rayToCursor,
+                out hit,
+                Mathf.Infinity,
+                LayerMask);
+
+            var cursorPos = transform.position;
+
+            if (rayHitSth) {
                 // Allow shooting all-over the enemy
                 // todo use tag dropdown
                 if (hit.collider.tag == "Enemy") {
@@ -96,8 +101,12 @@ namespace MoveToCursorPositionEx {
                             transform.position.y + 1,
                             hit.point.z);
             }
+
+            // Update transform position.
+            transform.position = cursorPos;
         }
 
+        // todo move it to a utility class
         public void AddLayer(string layerName) {
             Logger.LogCall();
 
@@ -110,6 +119,7 @@ namespace MoveToCursorPositionEx {
         /// unset.
         /// </summary>
         /// <param name="layerName"></param>
+        // todo move it to a utility class
         public void SetLayer(string layerName) {
             Logger.LogCall();
 
@@ -117,6 +127,7 @@ namespace MoveToCursorPositionEx {
             LayerMask = 1 << layerIndex;
         }
 
+        // todo move it to a utility class
         public void UnsetLayer(string layerName) {
             var layerIndex = LayerMask.NameToLayer(layerName);
             LayerMask ^= 1 << layerIndex;
